@@ -1,0 +1,272 @@
+"use client"
+
+import { useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Heart } from "lucide-react"
+import Image from "next/image"
+
+export default function Home() {
+  const [response, setResponse] = useState<"yes" | "no" | null>(null)
+  const [showFinalChance, setShowFinalChance] = useState(false)
+  const [accepted, setAccepted] = useState(false)
+
+  return (
+    <main className="min-h-screen flex flex-col items-center justify-center bg-[#FFF5F5] relative overflow-hidden">
+      {/* Background texture */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <Image src="/watercolor-texture.png" alt="Watercolor texture" fill className="object-cover" />
+      </div>
+
+      {/* Floating hearts */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute text-pink-300"
+            initial={{
+              x: Math.random() * 100 - 50 + "%",
+              y: Math.random() * 100 + 100 + "%",
+              opacity: 0.3 + Math.random() * 0.5,
+              scale: 0.5 + Math.random() * 1.5,
+            }}
+            animate={{
+              y: [null, "-120%"],
+              rotate: [0, Math.random() * 360],
+            }}
+            transition={{
+              repeat: Number.POSITIVE_INFINITY,
+              duration: 20 + Math.random() * 40,
+              ease: "linear",
+              delay: Math.random() * 20,
+            }}
+          >
+            <Heart size={Math.random() * 20 + 10} fill="currentColor" />
+          </motion.div>
+        ))}
+      </div>
+
+      <AnimatePresence mode="wait">
+        {!response && !showFinalChance && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+            className="max-w-2xl mx-auto p-8 rounded-lg bg-white/80 backdrop-blur-sm shadow-lg border border-pink-100"
+          >
+            <div className="text-center mb-6">
+              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2, type: "spring" }}>
+                <Heart className="mx-auto text-pink-400 mb-4" size={40} fill="currentColor" />
+              </motion.div>
+              <h1 className="text-3xl font-serif text-pink-600 mb-2">Nausheen, My Shayru...</h1>
+              <p className="text-sm text-pink-400 italic">From Zuhair, with all my heart</p>
+            </div>
+
+            <div className="space-y-6 text-gray-700 font-light leading-relaxed">
+              <p className="first-letter:text-3xl first-letter:font-serif first-letter:text-pink-500 first-letter:mr-1 first-letter:float-left">
+                My dearest Nausheen, I am really sorry for everything.
+              </p>
+
+              <p className="text-center text-lg text-pink-600 font-serif italic">
+                "Shayru, I know I made mistakes and I wasn't there the way you needed me."
+              </p>
+
+              <p className="text-center text-lg text-pink-600 font-serif italic">
+                "Jaan, you deserved better from me. I see that now, and I want to make it right."
+              </p>
+
+              <p className="text-center text-lg text-pink-600 font-serif italic">
+                "Nausheen, please — just one more chance. Let me prove how much you matter to me."
+              </p>
+
+              <p>
+                I'm not asking for immediate forgiveness. I'm asking for a chance to show you that I've changed, that I
+                understand now what it means to truly cherish someone. You are worth every effort, every change, every
+                promise I intend to keep.
+              </p>
+            </div>
+
+            <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-8 py-3 rounded-full bg-pink-500 text-white shadow-md hover:bg-pink-600 transition-colors"
+                onClick={() => setResponse("yes")}
+              >
+                Yes, I forgive you
+              </motion.button>
+
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-8 py-3 rounded-full bg-white text-pink-500 shadow-md border border-pink-200 hover:bg-pink-50 transition-colors"
+                onClick={() => setResponse("no")}
+              >
+                No, not yet
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+
+        {response === "yes" && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, type: "spring" }}
+            className="max-w-xl mx-auto p-8 rounded-lg bg-white/80 backdrop-blur-sm shadow-lg border border-pink-100 text-center"
+          >
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: [0, 1.2, 1] }}
+              transition={{ delay: 0.2, duration: 0.8 }}
+            >
+              <Heart className="mx-auto text-pink-500 mb-6" size={80} fill="currentColor" />
+            </motion.div>
+
+            <h2 className="text-2xl font-serif text-pink-600 mb-6">Thank you, Nausheen.</h2>
+
+            <p className="text-gray-700 mb-8">
+              I'll never take this for granted. Every day from now on will be a testament to how much you mean to me.
+              Thank you for giving us another chance.
+            </p>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1 }}
+              className="text-sm text-pink-400 italic"
+            >
+              With all my love, Zuhair
+            </motion.div>
+
+            <motion.div className="mt-10" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}>
+              {[...Array(5)].map((_, i) => (
+                <motion.span
+                  key={i}
+                  className="inline-block mx-1"
+                  initial={{ y: 0 }}
+                  animate={{ y: [0, -15, 0] }}
+                  transition={{
+                    repeat: Number.POSITIVE_INFINITY,
+                    duration: 1,
+                    delay: i * 0.2,
+                    repeatDelay: 0.5,
+                  }}
+                >
+                  <Heart className="text-pink-500" size={20} fill="currentColor" />
+                </motion.span>
+              ))}
+            </motion.div>
+          </motion.div>
+        )}
+
+        {response === "no" && !showFinalChance && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+            className="max-w-2xl mx-auto p-8 rounded-lg bg-white/80 backdrop-blur-sm shadow-lg border border-pink-100"
+          >
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-serif text-pink-600 mb-2">I understand...</h2>
+            </div>
+
+            <div className="space-y-6 text-gray-700 font-light leading-relaxed">
+              <p>
+                Nausheen, I understand your hesitation. Trust, once broken, takes time to rebuild. I respect your
+                feelings and your need for space.
+              </p>
+
+              <p className="text-center text-lg text-pink-600 font-serif italic">
+                "Some things, once broken, need gentle hands and patient hearts to mend."
+              </p>
+
+              <p>
+                I want you to know that whether it takes days, weeks, or months, I'll be here. Not to pressure you, but
+                to show you through consistent actions that my words are sincere.
+              </p>
+
+              <p>
+                Every moment we've shared has taught me something valuable about love, about you, and about myself. I'm
+                learning to be better because you deserve nothing less.
+              </p>
+
+              <p className="text-center text-lg text-pink-600 font-serif italic">
+                "The most beautiful things in life are often worth waiting for."
+              </p>
+
+              <p>
+                Shayru, my Guddu, I'm not giving up on us. I believe what we have is rare and worth fighting for. When
+                you're ready—if you're ever ready—I'll still be here, with my heart open.
+              </p>
+            </div>
+
+            <div className="mt-10 flex justify-center">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-8 py-3 rounded-full bg-pink-500 text-white shadow-md hover:bg-pink-600 transition-colors"
+                onClick={() => setShowFinalChance(true)}
+              >
+                Okay, one last chance
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+
+        {showFinalChance && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, type: "spring" }}
+            className="max-w-xl mx-auto p-8 rounded-lg bg-white/80 backdrop-blur-sm shadow-lg border border-pink-100 text-center"
+          >
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: [0, 1.2, 1] }}
+              transition={{ delay: 0.2, duration: 0.8 }}
+            >
+              <Heart className="mx-auto text-pink-500 mb-6" size={80} fill="currentColor" />
+            </motion.div>
+
+            <h2 className="text-2xl font-serif text-pink-600 mb-6">Thank you, Nausheen.</h2>
+
+            <p className="text-gray-700 mb-8">
+              This means everything to me. I promise to cherish every moment, to listen more than I speak, and to show
+              you every day that your heart is safe with me.
+            </p>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1 }}
+              className="text-sm text-pink-400 italic"
+            >
+              With all my love, Zuhair
+            </motion.div>
+
+            <motion.div className="mt-10" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}>
+              {[...Array(5)].map((_, i) => (
+                <motion.span
+                  key={i}
+                  className="inline-block mx-1"
+                  initial={{ y: 0 }}
+                  animate={{ y: [0, -15, 0] }}
+                  transition={{
+                    repeat: Number.POSITIVE_INFINITY,
+                    duration: 1,
+                    delay: i * 0.2,
+                    repeatDelay: 0.5,
+                  }}
+                >
+                  <Heart className="text-pink-500" size={20} fill="currentColor" />
+                </motion.span>
+              ))}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </main>
+  )
+}
